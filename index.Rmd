@@ -1,0 +1,40 @@
+---
+title: "DACSS 690V HW2"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(ggplot2)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Three-Gear Cars are Dominant
+
+```{r}
+plot1 = "https://github.com/DACSS-690V-1000/DACSS_690V-HWs/raw/main/p1.rds"
+readRDS(url(plot1))
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Few Cars have Six or more Carburators
+
+```{r}
+plot2 = "https://github.com/DACSS-690V-1000/DACSS_690V-HWs/raw/main/p2.rds"
+readRDS(url(plot2))
+```
+
+### Only 5 gear cars utilize the 6 and 8 carburators setups
+
+```{r}
+plot3= "https://github.com/DACSS-690V-1000/DACSS_690V-HWs/raw/main/p3.rds"
+readRDS(url(plot3))
+```
+
