@@ -1,0 +1,112 @@
+---
+title: "Cars Dashboard DACSS 690V (HW2)"
+Name: "Felix Ramirez Mota"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(ggplot2)
+library(tidyverse)
+
+car_data <- mtcars
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r}
+gear_tbl <- car_data$gear|>
+  table() |>
+  as.data.frame()
+gear_tbl
+```
+
+```{r}
+p1 <- ggplot(gear_tbl, aes(x=factor(Var1), y= Freq, label= Freq)) +
+  geom_bar(stat = "identity", fill = "grey80") +
+  geom_text(color = "red", size = 7, hjust = 1)+
+  coord_flip()+
+  labs(
+    title = "Three-Gear Cars are Dominant",
+    subtitle = "Count of Cars per Gear",
+    x = "Gear",
+    y= NULL,
+    caption = "Source: mtcars data"
+  ) +
+  theme_classic()+
+  theme(
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank()
+    )+
+  theme(
+    axis.title.y = element_text(size = 12, face = "bold"),
+    axis.text.y = element_text(size = 10, face = "bold") 
+  )
+
+saveRDS(p1, file = "p1.rds")
+
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Few Cars have six or more Carburators
+
+```{r}
+carb_tbl <- car_data$carb |>
+  table()|>
+  as.data.frame()
+carb_tbl
+```
+
+```{r}
+p2 <- ggplot(carb_tbl, aes(x=factor(Var1), y = Freq, label = Freq)) +
+  geom_bar(stat = "identity", fill = "powderblue")+
+  geom_text(vjust = 0)+
+  labs(
+    title = "Few Cars have Six or more Carburators",
+    subtitle = "Count of Cars per Carb",
+    x = "Carbs",
+    y= NULL,
+    caption = "Source: mtcars data"
+  )+
+  theme_classic()+
+  theme(
+    axis.text.y =  element_blank(),
+    axis.ticks.y = element_blank()
+    )+
+   theme(
+    axis.title.x = element_text(size = 12, face = "bold"),
+    axis.text.x  = element_text(size = 10, face = "bold") 
+   )
+saveRDS(p2, file = "p2.rds")
+```
+
+### Distribution of Cylinder Count by Carburators and Gears
+
+```{r}
+p3 <- ggplot(car_data, aes(x=factor(cyl)))+
+  geom_bar(fill = "powderblue")+
+  geom_text(
+    aes(label = scales::percent(after_stat(count/sum(count)))),
+    stat = "count",
+    vjust = 1.5,
+    size = 2.8)+
+  facet_grid(gear~carb, labeller = label_both)+
+  labs(
+    title = "Distribution of Cylinder Count by Carburators and Gears",
+    x="Cylinders",
+    y=NULL,
+    caption = "Source: mtcars data"
+  )
+saveRDS(p3, file = "p3.rds")
+```
+
+
+
